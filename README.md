@@ -1,6 +1,6 @@
 # 山东金宇9月调价对比
 
-在线网页：https://aykw129.github.io/shandong-jinyu-pricing/?v=12c59f09e420&view=1&tab=dashboard
+在线网页：https://aykw129.github.io/shandong-jinyu-pricing/?v=86aee42c10ba&view=1&tab=dashboard
 
 总价默认匹配六个周边站点最低价，谷与深谷继续统一0.38元/kWh；10–11点、14–15点比各自最低价低0.10，其余22小时持平。峰、尖峰比原价分别增加0.06、0.01，可切换只降不涨。
 
@@ -30,3 +30,5 @@
 成本对比图悬浮圆点半径由4缩小为2.5，价格提示正常。
 
 独立静态网页，无Ask ChatGPT。index.html解压payload并校验SHA-256，历史资源保留以兼容缓存。
+
+网页已删除“数据口径与来源”折叠部分。
