@@ -2,11 +2,11 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>山东金宇 · 9月调价对比</title></head><body><p id="loading" style="font:16px system-ui;margin:32px">正在加载山东金宇调价对比…</p><script>
 (async()=>{try{
 if(!('DecompressionStream' in window))throw new Error('请使用新版 Chrome、Edge、Firefox 或 Safari 打开。');
-const parts=await Promise.all([0,1,2,3].map(async i=>{const r=await fetch(new URL('payload-92c0543ce80129f1787f3e90b9ff0ff918bf2f4ae9474ef18cee56797ddff86c-'+i+'.txt',location.href));if(!r.ok)throw new Error('数据文件暂未就绪，请稍后刷新。');return r.text();}));
+const parts=await Promise.all([0,1,2].map(async i=>{const r=await fetch(new URL('payload-5e7e9db7ad1711063f33419f3ade8192f97628cee0c9ef8c6d524e8f8178cd67-'+i+'.txt',location.href));if(!r.ok)throw new Error('数据文件暂未就绪，请稍后刷新。');return r.text();}));
 const bytes=Uint8Array.from(atob(parts.join('')),c=>c.charCodeAt(0));
 const raw=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
 const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw)),x=>x.toString(16).padStart(2,'0')).join('');
-if(digest!=='92c0543ce80129f1787f3e90b9ff0ff918bf2f4ae9474ef18cee56797ddff86c')throw new Error('页面完整性校验失败，请刷新重试。');
+if(digest!=='5e7e9db7ad1711063f33419f3ade8192f97628cee0c9ef8c6d524e8f8178cd67')throw new Error('页面完整性校验失败，请刷新重试。');
 const html=new TextDecoder().decode(raw);document.open();document.write(html);document.close();
 }catch(e){document.getElementById('loading').textContent='加载失败：'+e.message;}})();
 </script></body></html>
