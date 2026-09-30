@@ -1,12 +1,182 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>山东金宇 · 9月调价对比</title></head><body><p id="loading" hidden style="font:16px system-ui;margin:32px"></p><script>
-(async()=>{try{
-if(!('DecompressionStream' in window))throw new Error('请使用新版 Chrome、Edge、Firefox 或 Safari 打开。');
-const parts=await Promise.all([0,1,2].map(async i=>{const r=await fetch(new URL('payload-42d11dd740e6966c2a106dbe27b22b7ce7db35c15537c05df9c7b2d1a039e9a4-'+i+'.txt',location.href));if(!r.ok)throw new Error('数据文件暂未就绪，请稍后刷新。');return r.text();}));
-const bytes=Uint8Array.from(atob(parts.join('')),c=>c.charCodeAt(0));
-const raw=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
-const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw)),x=>x.toString(16).padStart(2,'0')).join('');
-if(digest!=='42d11dd740e6966c2a106dbe27b22b7ce7db35c15537c05df9c7b2d1a039e9a4')throw new Error('页面完整性校验失败，请刷新重试。');
-const html=new TextDecoder().decode(raw);document.open();document.write(html);document.close();
-}catch(e){const status=document.getElementById('loading');status.hidden=false;status.textContent='加载失败：'+e.message;}})();
-</script></body></html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="山东金宇2026年国庆假期固定定价、预测成本与周边场站逐时段价差对比。">
+  <title>山东金宇 · 国庆假期固定定价</title>
+  <style>
+    :root{--navy:#113854;--ink:#172b3a;--muted:#627382;--line:#dce5eb;--panel:#fff;--bg:#f3f6f8;--teal:#147b69;--teal-soft:#e6f3ef;--red:#b65343;--red-soft:#faebe7;--gold:#bc7b22;--blue:#2d6d9f;--shadow:0 10px 30px rgba(26,58,77,.08);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 90% -10%,#dcecf0 0,transparent 30%),var(--bg);font-size:16px;line-height:1.55}button,select{font:inherit}button{cursor:pointer}.shell{width:min(1440px,calc(100% - 32px));margin:0 auto}.top{padding:38px 0 24px}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--teal);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.eyebrow:before{content:"";width:26px;height:3px;background:var(--teal);border-radius:4px}.hero{display:flex;gap:28px;justify-content:space-between;align-items:flex-end;margin-top:8px}.hero h1{font-size:clamp(28px,4vw,48px);line-height:1.12;margin:0;letter-spacing:-.035em;color:var(--navy)}.hero p{margin:12px 0 0;color:var(--muted);max-width:720px}.status{flex:0 0 auto;background:var(--navy);color:#fff;border-radius:18px;padding:16px 20px;box-shadow:var(--shadow)}.status b{display:block;font-size:17px}.status small{color:#cce0eb}.grid{display:grid;gap:18px}.cards{grid-template-columns:repeat(4,minmax(0,1fr));margin:16px 0 22px}.card,.panel{background:var(--panel);border:1px solid rgba(210,222,229,.85);border-radius:20px;box-shadow:var(--shadow)}.card{padding:18px}.card .label{font-size:13px;color:var(--muted);font-weight:650}.card .value{font-size:30px;font-weight:780;letter-spacing:-.04em;color:var(--navy);margin-top:6px}.card .meta{font-size:12px;color:var(--muted);margin-top:2px}.positive{color:var(--teal)!important}.negative{color:var(--red)!important}.panel{padding:22px;margin-bottom:18px}.panel-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}.panel h2{font-size:20px;margin:0;color:var(--navy);letter-spacing:-.015em}.panel .intro{font-size:13px;color:var(--muted);margin:5px 0 0;max-width:760px}.pill{background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:12px 13px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:inherit}thead{background:#edf3f6;color:#425968;font-size:12px}tbody tr{background:#fff}tbody tr:hover{background:#f7fbfc}tbody tr:last-child td{border-bottom:0}.type{display:inline-flex;align-items:center;gap:8px;font-weight:750}.dot{width:9px;height:9px;border-radius:50%;background:var(--blue)}.dot.谷{background:var(--teal)}.dot.深谷{background:#7b68ad}.dot.峰{background:var(--red)}.hours{white-space:normal;min-width:220px;color:var(--muted);font-size:12px}.chart-shell{position:relative;border:1px solid var(--line);border-radius:15px;padding:12px;background:linear-gradient(180deg,#fff,#f9fbfc)}#priceChart{display:block;width:100%;height:auto;min-height:260px}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}.legend span{display:inline-flex;gap:7px;align-items:center}.legend i{width:22px;height:3px;border-radius:3px;background:var(--teal)}.legend i.cost{background:var(--red)}.legend i.band{height:9px;background:#efd5cf}.tooltip{position:absolute;pointer-events:none;opacity:0;background:rgba(17,56,84,.96);color:#fff;border-radius:10px;padding:10px 12px;font-size:12px;box-shadow:0 8px 22px rgba(0,0,0,.18);transform:translate(-50%,-110%);transition:opacity .12s;min-width:180px;z-index:3}.tooltip.show{opacity:1}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.seg-select{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:8px 11px}.toggle{display:inline-flex;background:#edf3f6;border-radius:11px;padding:3px}.toggle button{border:0;background:transparent;color:var(--muted);font-size:13px;padding:7px 11px;border-radius:8px}.toggle button.active{background:#fff;color:var(--navy);font-weight:750;box-shadow:0 2px 8px rgba(28,56,70,.12)}.compare-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:22px}.rank-list{display:grid;gap:10px}.rank{display:grid;grid-template-columns:minmax(160px,1.25fr) 2fr 68px;align-items:center;gap:12px;font-size:13px}.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-track{height:11px;background:#edf2f4;border-radius:999px;overflow:hidden}.bar{height:100%;border-radius:999px;background:#8eabbc}.rank.jinyu .bar{background:var(--teal)}.rank.jinyu .rank-name{font-weight:760;color:var(--teal)}.rank-value{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}.callout{border-radius:15px;padding:18px;background:var(--navy);color:#fff}.callout .big{font-size:34px;font-weight:800;letter-spacing:-.04em}.callout p{color:#cae0ea;font-size:13px;margin:5px 0 0}.gap{font-weight:730}.gap.lower{color:var(--teal)}.gap.higher{color:var(--red)}.gap.same{color:var(--muted)}.risk-table th,.risk-table td{padding:10px;min-width:76px;text-align:center}.risk-table th:first-child,.risk-table td:first-child{min-width:112px;font-weight:700}.heat-good{background:#e5f3ee!important;color:#0c6c59}.heat-watch{background:#fff4dc!important;color:#946014}.heat-bad{background:#fae8e5!important;color:#a44335}.note{display:grid;grid-template-columns:1fr 1fr;gap:18px}.note-box{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fbfcfd}.note-box h3{font-size:14px;margin:0 0 6px;color:var(--navy)}.note-box p,.note-box li{font-size:12px;color:var(--muted);margin:0}.note-box ul{margin:6px 0 0;padding-left:18px}.download{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:700}.download:hover{border-color:#9fb8c5;background:#f7fafb}.footer{padding:12px 0 40px;color:var(--muted);font-size:12px;text-align:center}
+    @media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}.compare-grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.status{width:100%}.note{grid-template-columns:1fr}}
+    @media(max-width:600px){.shell{width:min(100% - 20px,1440px)}.top{padding-top:24px}.cards{grid-template-columns:1fr 1fr;gap:10px}.card{padding:14px}.card .value{font-size:24px}.panel{padding:16px;border-radius:16px}.panel-head{flex-direction:column}.rank{grid-template-columns:minmax(120px,1.2fr) 1fr 58px}.hero h1{font-size:31px}.hours{min-width:180px}}
+    @media print{body{background:#fff}.shell{width:100%}.panel,.card{box-shadow:none;break-inside:avoid}.download{display:none}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="eyebrow">Pricing brief · fixed plan</div>
+      <div class="hero">
+        <div><h1>山东金宇 · 国庆假期固定定价</h1><p>10月1日至7日统一执行四档固定价格。页面同时展示预测到户成本、价格拆分，以及与周边场站的逐时段价差。</p></div>
+        <div class="status"><b>已确认方案</b><small>执行周期：2026.10.01—10.07</small></div>
+      </div>
+    </header>
+
+    <section class="grid cards" id="summaryCards"></section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>固定价格确认</h2><p class="intro">相同类型时段在7天内执行相同价格；“到户成本”来自未来7天预测，“盈余”按总价减预测成本计算。</p></div><span class="pill">单位：元/kWh</span></div>
+      <div class="table-wrap"><table><thead><tr><th>时段类型</th><th>覆盖小时</th><th>电价</th><th>服务费</th><th>总价</th><th>7日平均成本</th><th>电价－成本</th><th>总价－成本</th><th>亏损点</th></tr></thead><tbody id="priceTable"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>全天价格与预测成本</h2><p class="intro">成本线展示7天同时点平均值，浅红区间为7天预测成本的最低—最高范围。悬停可查看每小时明细。</p></div><span class="pill">24小时</span></div>
+      <div class="chart-shell"><svg id="priceChart" viewBox="0 0 1120 350" role="img" aria-label="全天固定总价与预测成本折线图"></svg><div class="tooltip" id="chartTooltip"></div></div>
+      <div class="legend"><span><i></i>金宇固定总价</span><span><i class="cost"></i>7日平均到户成本</span><span><i class="band"></i>成本最低—最高区间</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>周边价格对比</h2><p class="intro">选择一个时段查看金宇与周边站点的同口径价格排序；站点价格按原始表格录入。</p></div><div class="controls"><select id="segmentSelect" class="seg-select" aria-label="选择时段"></select><div class="toggle" id="metricToggle" aria-label="选择价格口径"><button data-metric="total" class="active">总价</button><button data-metric="electricity">电价</button><button data-metric="service">服务费</button></div></div></div>
+      <div class="compare-grid"><div class="rank-list" id="rankList"></div><div class="callout" id="compareCallout"></div></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>逐时段价差</h2><p class="intro">价差＝山东金宇－周边站点。负数表示金宇更便宜，正数表示金宇更贵；可切换总价、电价和服务费。</p></div><button class="download" id="downloadCsv">下载价差 CSV</button></div>
+      <div class="table-wrap"><table><thead id="gapHead"></thead><tbody id="gapBody"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>小时成本与盈余</h2><p class="intro">共168个“日期×小时”成本点。红色表示该小时按7日平均成本测算为负，黄色表示平均盈余不足0.05元/kWh。</p></div><span class="pill" id="lossBadge"></span></div>
+      <div class="table-wrap"><table class="risk-table"><thead id="riskHead"></thead><tbody id="riskBody"></tbody></table></div>
+    </section>
+
+    <section class="panel note">
+      <div class="note-box"><h3>口径说明</h3><ul><li>预测到户价作为成本参考；利润测算以“电价＋服务费”的总价减成本。</li><li>周边比较使用各价段起始小时的站点价格；原表异常或特殊服务费不做人工改写。</li><li>页面为10月1日至7日固定价确认版，不包含自动或动态调价。</li></ul></div>
+      <div class="note-box"><h3>数据来源</h3><p id="sources"></p><p style="margin-top:8px">更新日期：2026-09-30</p></div>
+    </section>
+    <footer class="footer">山东金宇国庆假期定价确认 · 所有金额均为元/kWh</footer>
+  </main>
+
+  <script id="pricing-data" type="application/json">{"title":"山东金宇 · 国庆假期固定定价","dateRange":"2026年10月1日—10月7日","updatedAt":"2026-09-30","pricing":{"平":{"electricity":0.7,"service":0.15,"total":0.85,"hours":[0,1,2,3,4,5,6,7,8,15,21,22,23]},"谷":{"electricity":0.4,"service":0.14,"total":0.54,"hours":[9,10,14]},"深谷":{"electricity":0.35,"service":0.09,"total":0.44,"hours":[11,12,13]},"峰":{"electricity":1.13,"service":0.1,"total":1.23,"hours":[16,17,18,19,20]}},"hourly":[{"hour":0,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.8067,"costMin":0.7936,"costMax":0.8249,"marginAverage":0.0433,"lossDays":0,"peerMedian":0.89},{"hour":1,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.8048,"costMin":0.7887,"costMax":0.8295,"marginAverage":0.0452,"lossDays":0,"peerMedian":0.89},{"hour":2,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.8002,"costMin":0.7779,"costMax":0.8283,"marginAverage":0.0498,"lossDays":0,"peerMedian":0.89},{"hour":3,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7961,"costMin":0.7743,"costMax":0.8247,"marginAverage":0.0539,"lossDays":0,"peerMedian":0.89},{"hour":4,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7953,"costMin":0.777,"costMax":0.8219,"marginAverage":0.0547,"lossDays":0,"peerMedian":0.89},{"hour":5,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7936,"costMin":0.7764,"costMax":0.8181,"marginAverage":0.0564,"lossDays":0,"peerMedian":0.89},{"hour":6,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7762,"costMin":0.7408,"costMax":0.8122,"marginAverage":0.0738,"lossDays":0,"peerMedian":0.89},{"hour":7,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7203,"costMin":0.5894,"costMax":0.8018,"marginAverage":0.1297,"lossDays":0,"peerMedian":0.89},{"hour":8,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.502,"costMin":0.2885,"costMax":0.6941,"marginAverage":0.348,"lossDays":0,"peerMedian":0.89},{"hour":9,"type":"谷","electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.4377,"costMin":0.2566,"costMax":0.6897,"marginAverage":0.1023,"lossDays":3,"peerMedian":0.89},{"hour":10,"type":"谷","electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.433,"costMin":0.2376,"costMax":0.6672,"marginAverage":0.107,"lossDays":3,"peerMedian":0.56},{"hour":11,"type":"深谷","electricity":0.35,"service":0.09,"total":0.44,"costAverage":0.4471,"costMin":0.2128,"costMax":0.6709,"marginAverage":-0.0071,"lossDays":3,"peerMedian":0.46},{"hour":12,"type":"深谷","electricity":0.35,"service":0.09,"total":0.44,"costAverage":0.418,"costMin":0.1868,"costMax":0.6592,"marginAverage":0.022,"lossDays":3,"peerMedian":0.46},{"hour":13,"type":"深谷","electricity":0.35,"service":0.09,"total":0.44,"costAverage":0.4622,"costMin":0.2111,"costMax":0.7027,"marginAverage":-0.0222,"lossDays":4,"peerMedian":0.46},{"hour":14,"type":"谷","electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.6381,"costMin":0.3335,"costMax":0.8149,"marginAverage":-0.0981,"lossDays":5,"peerMedian":0.56},{"hour":15,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7956,"costMin":0.5388,"costMax":0.9047,"marginAverage":0.0544,"lossDays":3,"peerMedian":0.89},{"hour":16,"type":"峰","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.8993,"costMin":0.774,"costMax":0.9463,"marginAverage":0.3307,"lossDays":0,"peerMedian":1.225},{"hour":17,"type":"峰","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.9167,"costMin":0.8387,"costMax":0.9566,"marginAverage":0.3133,"lossDays":0,"peerMedian":1.31},{"hour":18,"type":"峰","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.9234,"costMin":0.8639,"costMax":0.9608,"marginAverage":0.3066,"lossDays":0,"peerMedian":1.31},{"hour":19,"type":"峰","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.886,"costMin":0.8343,"costMax":0.9215,"marginAverage":0.344,"lossDays":0,"peerMedian":1.24},{"hour":20,"type":"峰","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.884,"costMin":0.8379,"costMax":0.9213,"marginAverage":0.346,"lossDays":0,"peerMedian":1.24},{"hour":21,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7969,"costMin":0.7481,"costMax":0.8365,"marginAverage":0.0531,"lossDays":0,"peerMedian":0.89},{"hour":22,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7975,"costMin":0.7558,"costMax":0.8357,"marginAverage":0.0525,"lossDays":0,"peerMedian":0.89},{"hour":23,"type":"平","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7971,"costMin":0.7543,"costMax":0.8328,"marginAverage":0.0529,"lossDays":0,"peerMedian":0.89}],"forecast":[[0.8191,0.8189,0.813,0.8001,0.8012,0.8025,0.7612,0.5894,0.2885,0.2566,0.3432,0.3616,0.3058,0.3495,0.5377,0.7689,0.9278,0.9519,0.9603,0.9211,0.9213,0.8365,0.8357,0.8328],[0.8037,0.8038,0.8018,0.7997,0.7981,0.7957,0.7856,0.75,0.4752,0.2688,0.27,0.3556,0.2625,0.2975,0.6435,0.8105,0.9168,0.9255,0.9295,0.8906,0.8885,0.802,0.8007,0.7997],[0.8017,0.7984,0.7937,0.7904,0.7872,0.7832,0.7772,0.7729,0.6734,0.6634,0.6434,0.6394,0.629,0.6426,0.734,0.8319,0.8914,0.8979,0.8987,0.8604,0.8567,0.7686,0.7701,0.7719],[0.7948,0.7887,0.7779,0.7743,0.777,0.7764,0.7408,0.6616,0.3473,0.2733,0.2376,0.2128,0.1868,0.2111,0.3335,0.5388,0.774,0.8387,0.8639,0.8343,0.8379,0.7481,0.7558,0.7543],[0.8092,0.799,0.7918,0.7912,0.7941,0.7928,0.7809,0.7474,0.5779,0.5504,0.562,0.5886,0.555,0.5845,0.7328,0.8643,0.9252,0.9322,0.9323,0.8927,0.8907,0.8048,0.8023,0.8002],[0.7936,0.7953,0.7953,0.792,0.7877,0.7865,0.7758,0.7188,0.4576,0.3614,0.3078,0.3008,0.3274,0.4476,0.6703,0.8504,0.9133,0.9139,0.9182,0.8817,0.8788,0.792,0.7931,0.7932],[0.8249,0.8295,0.8283,0.8247,0.8219,0.8181,0.8122,0.8018,0.6941,0.6897,0.6672,0.6709,0.6592,0.7027,0.8149,0.9047,0.9463,0.9566,0.9608,0.9215,0.914,0.8264,0.8246,0.8276]],"stations":[{"name":"山东金宇（确认价）","guns":null,"electricity":[0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.4,0.4,0.35,0.35,0.35,0.4,0.7,1.13,1.13,1.13,1.13,1.13,0.7,0.7,0.7],"service":[0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.14,0.14,0.09,0.09,0.09,0.14,0.15,0.1,0.1,0.1,0.1,0.1,0.15,0.15,0.15],"total":[0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.54,0.54,0.44,0.44,0.44,0.54,0.85,1.23,1.23,1.23,1.23,1.23,0.85,0.85,0.85],"isJinyu":true},{"name":"特来电超充站（环通大厦）","guns":null,"electricity":[0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.29,0.2,0.2,0.2,0.29,0.63,0.96,1.1,1.1,0.96,0.96,0.63,0.63,0.63],"service":[0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.23,0.2,0.2,0.23,0.23,0.25,0.25,0.25],"total":[0.88,0.88,0.88,0.88,0.88,0.88,0.88,0.88,0.88,0.88,0.54,0.45,0.45,0.45,0.54,0.88,1.19,1.3,1.3,1.19,1.19,0.88,0.88,0.88],"isJinyu":false},{"name":"济南能源汽车充电站（万舜大球馆）","guns":null,"electricity":[0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.3,0.2,0.2,0.2,0.3,0.63,0.96,1.11,1.11,0.96,0.96,0.63,0.63,0.63],"service":[1,1,1,1,1,1,1,1,1,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,1,1,1,1,1,1,1],"total":[1.63,1.63,1.63,1.63,1.63,1.63,1.63,1.63,1.63,0.93,0.6,0.5,0.5,0.5,0.6,0.93,1.26,2.11,2.11,1.96,1.96,1.63,1.63,1.63],"isJinyu":false},{"name":"济南能源汽车充电站（历下三院）","guns":null,"electricity":[0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.3,0.2,0.2,0.2,0.3,0.63,0.96,1.11,1.11,0.96,0.96,0.63,0.63,0.63],"service":[0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.18,0.18,0.18,0.18,0.18,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15],"total":[0.78,0.78,0.78,0.78,0.78,0.78,0.78,0.78,0.78,0.78,0.48,0.38,0.38,0.38,0.48,0.78,1.11,1.26,1.26,1.11,1.11,0.78,0.78,0.78],"isJinyu":false},{"name":"国家电网万达广场充电站","guns":null,"electricity":[0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.63,0.29,0.2,0.2,0.2,0.29,0.63,0.96,1.1,1.1,0.96,0.96,0.63,0.63,0.63],"service":[0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.26,0.25,0.25,0.25,0.26,0.2,0.2,0.21,0.21,0.2,0.2,0.2,0.2,0.2],"total":[0.83,0.83,0.83,0.83,0.83,0.83,0.83,0.83,0.83,0.83,0.55,0.45,0.45,0.45,0.55,0.83,1.16,1.31,1.31,1.16,1.16,0.83,0.83,0.83],"isJinyu":false},{"name":"济南玖烨汽车充电站（高新万达）","guns":null,"electricity":[0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.37,0.27,0.27,0.27,0.37,0.7,1.11,1.11,1.11,1.11,1.11,0.7,0.7,0.7],"service":[0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],"total":[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.57,0.47,0.47,0.47,0.57,0.9,1.31,1.31,1.31,1.31,1.31,0.9,0.9,0.9],"isJinyu":false},{"name":"蔚来能源超级充电站（济南高新区天辰路）","guns":null,"electricity":[0.66,0.66,0.66,0.66,0.66,0.66,0.66,0.66,0.66,0.66,0.31,0.21,0.21,0.21,0.31,0.66,1.01,1.16,1.16,1.01,1.01,0.66,0.66,0.66],"service":[0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28,0.28],"total":[0.94,0.94,0.94,0.94,0.94,0.94,0.94,0.94,0.94,0.94,0.59,0.49,0.49,0.49,0.59,0.94,1.29,1.44,1.44,1.29,1.29,0.94,0.94,0.94],"isJinyu":false}],"periodRows":[{"type":"平","hoursText":"00:00、01:00、02:00、03:00、04:00、05:00、06:00、07:00、08:00、15:00、21:00、22:00、23:00","electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7679,"costMin":0.2885,"costMax":0.9047,"electricityMargin":-0.0679,"totalMargin":0.0821,"lossPoints":3,"pointCount":91,"peerMedian":0.89},{"type":"谷","hoursText":"09:00、10:00、14:00","electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.5029,"costMin":0.2376,"costMax":0.8149,"electricityMargin":-0.1029,"totalMargin":0.0371,"lossPoints":11,"pointCount":21,"peerMedian":0.67},{"type":"深谷","hoursText":"11:00、12:00、13:00","electricity":0.35,"service":0.09,"total":0.44,"costAverage":0.4424,"costMin":0.1868,"costMax":0.7027,"electricityMargin":-0.0924,"totalMargin":-0.0024,"lossPoints":10,"pointCount":21,"peerMedian":0.46},{"type":"峰","hoursText":"16:00、17:00、18:00、19:00、20:00","electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.9019,"costMin":0.774,"costMax":0.9608,"electricityMargin":0.2281,"totalMargin":0.3281,"lossPoints":0,"pointCount":35,"peerMedian":1.265}],"segmentRows":[{"label":"00:00–09:00","type":"平","start":0,"hours":[0,1,2,3,4,5,6,7,8],"electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.755,"lossPoints":0},{"label":"09:00–10:00","type":"谷","start":9,"hours":[9],"electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.4377,"lossPoints":3},{"label":"10:00–11:00","type":"谷","start":10,"hours":[10],"electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.433,"lossPoints":3},{"label":"11:00–14:00","type":"深谷","start":11,"hours":[11,12,13],"electricity":0.35,"service":0.09,"total":0.44,"costAverage":0.4424,"lossPoints":10},{"label":"14:00–15:00","type":"谷","start":14,"hours":[14],"electricity":0.4,"service":0.14,"total":0.54,"costAverage":0.6381,"lossPoints":5},{"label":"15:00–16:00","type":"平","start":15,"hours":[15],"electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7956,"lossPoints":3},{"label":"16:00–17:00","type":"峰","start":16,"hours":[16],"electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.8993,"lossPoints":0},{"label":"17:00–19:00","type":"峰","start":17,"hours":[17,18],"electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.92,"lossPoints":0},{"label":"19:00–21:00","type":"峰","start":19,"hours":[19,20],"electricity":1.13,"service":0.1,"total":1.23,"costAverage":0.885,"lossPoints":0},{"label":"21:00–24:00","type":"平","start":21,"hours":[21,22,23],"electricity":0.7,"service":0.15,"total":0.85,"costAverage":0.7972,"lossPoints":0}],"summary":{"averagePlanPrice":0.8392,"averageCost":0.722,"averageMargin":0.1172,"lossPoints":24,"totalPoints":168,"abovePeerMedianHours":1,"belowPeerMedianHours":23,"worstPeerGap":0.005,"bestPeerGap":-0.35},"sources":["山东预测电价_20260930.xlsx（未来7天-折元每kWh-到户）","20260930山东金宇周边站点价格.xlsx"]}</script>
+  <script data-app-script>
+    const data = JSON.parse(document.getElementById("pricing-data").textContent);
+    const fmt = (value, digits = 3) => Number.isFinite(value) ? Number(value).toFixed(digits) : "—";
+    const money = (value) => fmt(value, 3);
+    const signed = (value) => !Number.isFinite(value) ? "—" : (Math.abs(value) < .0005 ? "0.000" : (value > 0 ? "+" : "") + value.toFixed(3));
+    const gapClass = (value) => !Number.isFinite(value) || Math.abs(value) < .0005 ? "same" : value < 0 ? "lower" : "higher";
+    const metricLabel = { total: "总价", electricity: "电价", service: "服务费" };
+    let metric = "total";
+    let selectedSegment = 0;
+
+    function renderSummary() {
+      const s = data.summary;
+      const cards = [
+        ["24小时平均总价", money(s.averagePlanPrice), "四档固定价按小时加权"],
+        ["7日平均到户成本", money(s.averageCost), "168个预测成本点"],
+        ["平均测算盈余", signed(s.averageMargin), "总价－到户成本", s.averageMargin >= 0 ? "positive" : "negative"],
+        ["预计亏损点", s.lossPoints + " / " + s.totalPoints, "日期×小时", s.lossPoints ? "negative" : "positive"],
+      ];
+      document.getElementById("summaryCards").innerHTML = cards.map((card) => '<article class="card"><div class="label">' + card[0] + '</div><div class="value ' + (card[3] || '') + '">' + card[1] + '</div><div class="meta">' + card[2] + '</div></article>').join("");
+    }
+
+    function renderPriceTable() {
+      document.getElementById("priceTable").innerHTML = data.periodRows.map((row) => '<tr><td><span class="type"><i class="dot ' + row.type + '"></i>' + row.type + '</span></td><td class="hours">' + row.hoursText + '</td><td>' + money(row.electricity) + '</td><td>' + money(row.service) + '</td><td><b>' + money(row.total) + '</b></td><td>' + money(row.costAverage) + '</td><td class="gap ' + gapClass(row.electricityMargin) + '">' + signed(row.electricityMargin) + '</td><td class="gap ' + gapClass(row.totalMargin) + '">' + signed(row.totalMargin) + '</td><td>' + row.lossPoints + ' / ' + row.pointCount + '</td></tr>').join("");
+    }
+
+    function renderChart() {
+      const svg = document.getElementById("priceChart");
+      const W = 1120, H = 350, left = 56, right = 22, top = 24, bottom = 48;
+      const values = data.hourly.flatMap((d) => [d.total, d.costMin, d.costMax]);
+      const maxV = Math.ceil(Math.max(...values) * 10) / 10 + .1;
+      const minV = Math.max(0, Math.floor(Math.min(...values) * 10) / 10 - .1);
+      const x = (hour) => left + hour * (W - left - right) / 23;
+      const y = (value) => top + (maxV - value) * (H - top - bottom) / (maxV - minV);
+      const line = (field) => data.hourly.map((d, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(d[field]).toFixed(1)).join(" ");
+      const upper = data.hourly.map((d, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(d.costMax).toFixed(1)).join(" ");
+      const lower = [...data.hourly].reverse().map((d, i) => "L" + x(23 - i).toFixed(1) + " " + y(d.costMin).toFixed(1)).join(" ");
+      let out = '<defs><linearGradient id="costBand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98d80" stop-opacity=".34"/><stop offset="1" stop-color="#d98d80" stop-opacity=".08"/></linearGradient></defs>';
+      for (let i = 0; i <= 5; i++) {
+        const value = minV + (maxV - minV) * i / 5;
+        out += '<line x1="' + left + '" y1="' + y(value) + '" x2="' + (W-right) + '" y2="' + y(value) + '" stroke="#dfe8ed" stroke-width="1"/><text x="' + (left-10) + '" y="' + (y(value)+4) + '" text-anchor="end" fill="#71828d" font-size="12">' + value.toFixed(2) + '</text>';
+      }
+      for (let i = 0; i < 24; i++) if (i % 2 === 0 || i === 23) out += '<text x="' + x(i) + '" y="' + (H-17) + '" text-anchor="middle" fill="#71828d" font-size="12">' + String(i).padStart(2,"0") + ':00</text>';
+      out += '<path d="' + upper + ' ' + lower + ' Z" fill="url(#costBand)"/>';
+      out += '<path d="' + line("costAverage") + '" fill="none" stroke="#b65343" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round" stroke-linejoin="round"/>';
+      out += '<path d="' + line("total") + '" fill="none" stroke="#147b69" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
+      data.hourly.forEach((d, i) => { out += '<circle cx="' + x(i) + '" cy="' + y(d.total) + '" r="4" fill="#fff" stroke="#147b69" stroke-width="2"/><rect class="chart-hit" data-hour="' + i + '" x="' + (x(i)-(W-left-right)/46) + '" y="' + top + '" width="' + ((W-left-right)/23) + '" height="' + (H-top-bottom) + '" fill="transparent" tabindex="0"/>'; });
+      svg.innerHTML = out;
+      const tip = document.getElementById("chartTooltip");
+      const show = (event) => {
+        const item = data.hourly[Number(event.currentTarget.dataset.hour)];
+        tip.innerHTML = '<b>' + String(item.hour).padStart(2,"0") + ':00 · ' + item.type + '</b><br>总价 ' + money(item.total) + '（电价 ' + money(item.electricity) + '＋服务费 ' + money(item.service) + '）<br>平均成本 ' + money(item.costAverage) + '<br>平均盈余 <span class="' + (item.marginAverage >= 0 ? "positive" : "negative") + '">' + signed(item.marginAverage) + '</span><br>成本范围 ' + money(item.costMin) + '—' + money(item.costMax);
+        const svgBox = svg.getBoundingClientRect();
+        const hitBox = event.currentTarget.getBoundingClientRect();
+        tip.style.left = (hitBox.left - svgBox.left + hitBox.width / 2 + 12) + 'px';
+        tip.style.top = Math.max(100, hitBox.top - svgBox.top + 36) + 'px';
+        tip.classList.add("show");
+      };
+      svg.querySelectorAll(".chart-hit").forEach((hit) => { hit.addEventListener("mouseenter", show); hit.addEventListener("focus", show); hit.addEventListener("mouseleave", () => tip.classList.remove("show")); hit.addEventListener("blur", () => tip.classList.remove("show")); });
+    }
+
+    function valuesForSegment(segment) {
+      return data.stations.map((station) => ({ station, value: station[metric][segment.start] })).filter((item) => Number.isFinite(item.value));
+    }
+
+    function renderCompare() {
+      const segment = data.segmentRows[selectedSegment];
+      const values = valuesForSegment(segment);
+      const max = Math.max(...values.map((item) => item.value), .01);
+      document.getElementById("rankList").innerHTML = [...values].sort((a,b) => a.value-b.value).map((item) => '<div class="rank ' + (item.station.isJinyu ? "jinyu" : "") + '"><div class="rank-name" title="' + item.station.name + '">' + item.station.name + '</div><div class="bar-track"><div class="bar" style="width:' + (item.value/max*100).toFixed(1) + '%"></div></div><div class="rank-value">' + money(item.value) + '</div></div>').join("");
+      const jinyu = values.find((item) => item.station.isJinyu)?.value;
+      const peerValues = values.filter((item) => !item.station.isJinyu).map((item) => item.value);
+      const sorted = [...peerValues].sort((a,b) => a-b);
+      const peerMedian = sorted.length % 2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+      const gap = jinyu - peerMedian;
+      const relation = Math.abs(gap) < .0005 ? "与周边中位价持平" : gap < 0 ? "低于周边中位价" : "高于周边中位价";
+      document.getElementById("compareCallout").innerHTML = '<div style="font-size:13px;color:#cae0ea">' + segment.label + ' · ' + metricLabel[metric] + '</div><div class="big">' + signed(gap) + '</div><b>' + relation + '</b><p>金宇 ' + money(jinyu) + '，周边中位价 ' + money(peerMedian) + '。价差口径为金宇减周边。</p>';
+    }
+
+    function renderGapTable() {
+      const peers = data.stations.filter((station) => !station.isJinyu);
+      document.getElementById("gapHead").innerHTML = '<tr><th>时段</th><th>类型</th><th>金宇' + metricLabel[metric] + '</th>' + peers.map((peer) => '<th title="' + peer.name + '">' + peer.name.replace(/（.*?）/g,"") + '</th>').join("") + '</tr>';
+      document.getElementById("gapBody").innerHTML = data.segmentRows.map((segment) => {
+        const jinyu = data.stations[0][metric][segment.start];
+        return '<tr><td>' + segment.label + '</td><td>' + segment.type + '</td><td><b>' + money(jinyu) + '</b></td>' + peers.map((peer) => { const value = peer[metric][segment.start]; const gap = Number.isFinite(value) ? jinyu - value : null; return '<td class="gap ' + gapClass(gap) + '" title="周边价 ' + money(value) + '">' + signed(gap) + '</td>'; }).join("") + '</tr>';
+      }).join("");
+    }
+
+    function renderRisk() {
+      document.getElementById("riskHead").innerHTML = '<tr><th>口径</th>' + data.hourly.map((item) => '<th>' + String(item.hour).padStart(2,"0") + ':00</th>').join("") + '</tr>';
+      const rows = [
+        ["固定总价", data.hourly.map((item) => money(item.total)), () => ""],
+        ["平均成本", data.hourly.map((item) => money(item.costAverage)), () => ""],
+        ["平均盈余", data.hourly.map((item) => signed(item.marginAverage)), (item) => item.marginAverage < 0 ? "heat-bad" : item.marginAverage < .05 ? "heat-watch" : "heat-good"],
+        ["亏损天数", data.hourly.map((item) => item.lossDays + "/7"), (item) => item.lossDays > 0 ? "heat-bad" : "heat-good"],
+      ];
+      document.getElementById("riskBody").innerHTML = rows.map((row) => '<tr><td>' + row[0] + '</td>' + row[1].map((value, index) => '<td class="' + row[2](data.hourly[index]) + '">' + value + '</td>').join("") + '</tr>').join("");
+      document.getElementById("lossBadge").textContent = data.summary.lossPoints + " / 168 个亏损点";
+    }
+
+    function downloadCsv() {
+      const peers = data.stations.filter((station) => !station.isJinyu);
+      const rows = [["时段","类型","口径","金宇价格",...peers.map((peer) => peer.name)]];
+      data.segmentRows.forEach((segment) => {
+        const jinyu = data.stations[0][metric][segment.start];
+        rows.push([segment.label,segment.type,metricLabel[metric],jinyu,...peers.map((peer) => { const value = peer[metric][segment.start]; return Number.isFinite(value) ? (jinyu-value).toFixed(3) : ""; })]);
+      });
+      const csv = "\ufeff" + rows.map((row) => row.map((cell) => '"' + String(cell).replaceAll('"','""') + '"').join(",")).join("\n");
+      const url = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+      const a = document.createElement("a"); a.href=url; a.download="山东金宇_国庆假期_逐时段价差_"+metricLabel[metric]+".csv"; a.click(); URL.revokeObjectURL(url);
+    }
+
+    const select = document.getElementById("segmentSelect");
+    select.innerHTML = data.segmentRows.map((segment,index) => '<option value="' + index + '">' + segment.label + ' · ' + segment.type + '</option>').join("");
+    select.addEventListener("change", (event) => { selectedSegment = Number(event.target.value); renderCompare(); });
+    document.getElementById("metricToggle").addEventListener("click", (event) => { if (!event.target.dataset.metric) return; metric = event.target.dataset.metric; document.querySelectorAll("#metricToggle button").forEach((button) => button.classList.toggle("active",button.dataset.metric===metric)); renderCompare(); renderGapTable(); });
+    document.getElementById("downloadCsv").addEventListener("click", downloadCsv);
+    document.getElementById("sources").textContent = data.sources.join("；");
+    renderSummary(); renderPriceTable(); renderChart(); renderCompare(); renderGapTable(); renderRisk();
+  </script>
+</body>
+</html>
